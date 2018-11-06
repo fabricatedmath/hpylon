@@ -1,0 +1,49 @@
+name:                hpylon
+version:             0.1.0.0
+#github:              "githubuser/hpylon"
+license:             BSD3
+author:              "Charles Durham"
+maintainer:          "cpdurham@gmail.com"
+copyright:           "2018 Charles Durham"
+
+extra-source-files:
+- README.md
+- ChangeLog.md
+
+# Metadata used when publishing your package
+# synopsis:            Short description of your package
+# category:            Web
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on GitHub at <https://github.com/githubuser/hpylon#readme>
+
+dependencies:
+- base >= 4.7 && < 5
+- pipes
+- vector
+
+library:
+  ghc-options: -Wall -O2
+  cc-options: -fpic -shared -Wl,-E
+  source-dirs: src
+  c-sources: cbits/Camera.cpp
+  include-dirs: /opt/pylon5/include
+  extra-lib-dirs: /opt/pylon5/lib64
+  extra-libraries:
+    stdc++,
+    pylonbase,
+    GenApi_gcc_v3_1_Basler_pylon_v5_1,
+    GCBase_gcc_v3_1_Basler_pylon_v5_1
+
+executables:
+  hpylon-exe:
+    main:                Main.hs
+    source-dirs:         app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hpylon
