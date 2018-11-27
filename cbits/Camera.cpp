@@ -36,16 +36,6 @@ public :
         }
         Pylon::IPylonDevice* x = CTlFactory::GetInstance().CreateFirstDevice(info);
         camera = new Camera_t(x);
-#ifdef CAMERA
-	String_t serial = camera->GetDeviceInfo().GetSerialNumber();
-	std::stringstream ss;
-	ss << CAMERA;
-	std::string str = ss.str();
-	if (serial.compare(gcstring(str.c_str())) != 0) {
-          std:cout << "Wrong camera, expected " << str << ", found, " << serial << std::endl;
-          throw RUNTIME_EXCEPTION("Wrong Camera Connected");
-	}
-#endif
         std::cout << camera->GetDeviceInfo().GetSerialNumber() << std::endl;
       camera->Open();
       camera->MaxNumBuffer = maxNumBuffer;
@@ -79,6 +69,10 @@ public :
 
     uint32_t getWidth() {
         return camera->Width.GetValue();
+    }
+
+    String_t getSerial() {
+        camera->GetDeviceInfo().GetSerialNumber();
     }
 
     uint8_t* grab() {
@@ -122,6 +116,10 @@ extern "C" uint32_t Camera_height(Camera* camera) {
 
 extern "C" uint32_t Camera_width(Camera* camera) {
     return camera->getWidth();
+}
+
+extern "C" String_t Camera_serial(Camera* camera) {
+    return camera->getSerial();
 }
 
 extern "C" void Camera_setStrategyOneByOne(Camera* camera) {

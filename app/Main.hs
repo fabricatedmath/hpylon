@@ -6,6 +6,7 @@ import qualified Data.Vector.Storable as S
 import Data.Word
 
 import Pipes
+import qualified Pipes.Prelude as Pipes
 
 import Camera
 
@@ -14,10 +15,10 @@ main = do
   mCamera <- cameraProducer
   case mCamera of
     Nothing -> putStrLn "Camera not found"
-    Just (dim,producer) ->
+    Just (serial,dim,producer) ->
       do
-        print dim
-        runEffect $ producer >-> consumer
+        print serial
+        runEffect $ producer >-> Pipes.take 100 >-> consumer
 
 consumer :: Consumer (S.Vector Word8) IO ()
 consumer =
