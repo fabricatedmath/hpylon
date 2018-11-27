@@ -1,10 +1,9 @@
 module Camera.FFI where
 
-import Data.Word (Word8,Word32)
+import Data.Word (Word8,Word32,Word64)
 
 import Foreign.Ptr
 import Foreign.ForeignPtr
-import Foreign.C.String
 import Foreign.Marshal.Utils (maybePeek)
 
 foreign import ccall unsafe "Camera_setStrategyOneByOne" c_setStrategyOneByOne
@@ -18,7 +17,7 @@ foreign import ccall unsafe "Camera_height" c_getHeight
 foreign import ccall unsafe "Camera_width" c_getWidth
   :: Ptr Camera -> IO Word32
 foreign import ccall unsafe "Camera_serial" c_getSerial
-  :: Ptr Camera -> IO CString
+  :: Ptr Camera -> IO Word64
 foreign import ccall unsafe "Camera_grab" c_grab
   :: Ptr Camera -> IO (Ptr Word8)
 foreign import ccall unsafe "&Camera_delete" c_delete
@@ -44,13 +43,8 @@ height = c_getHeight
 width :: Ptr Camera -> IO Word32
 width = c_getWidth
 
-serial :: Ptr Camera -> IO String
-serial cameraPtr =
-  do
-    putStrLn "cats"
-    str <- c_getSerial cameraPtr >>= peekCString
-    putStrLn $ "Dogs" ++ str
-    return str
+serial :: Ptr Camera -> IO Word64
+serial cameraPtr = c_getSerial cameraPtr
 
 grab :: Ptr Camera -> IO (Ptr Word8)
 grab = c_grab

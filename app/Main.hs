@@ -17,8 +17,8 @@ main = do
     Nothing -> putStrLn "Camera not found"
     Just (serial,dim,producer) ->
       do
-        print serial
-        runEffect $ producer >-> Pipes.take 100 >-> consumer
+        putStrLn $ "Camera Serial: " ++ show serial
+        runEffect $ producer >-> Pipes.take 20 >-> consumer
 
 consumer :: Consumer (S.Vector Word8) IO ()
 consumer =

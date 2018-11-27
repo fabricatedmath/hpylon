@@ -1,6 +1,7 @@
 #include <pylon/PylonIncludes.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits>
 
 using namespace Pylon;
 using namespace std;
@@ -24,6 +25,7 @@ public :
     bool notStarted;
     EGrabStrategy strategy;
     Camera_t* camera;
+    uint64_t serial;
 
     Camera() {
         CDeviceInfo info;
@@ -36,7 +38,11 @@ public :
         }
         Pylon::IPylonDevice* x = CTlFactory::GetInstance().CreateFirstDevice(info);
         camera = new Camera_t(x);
-        std::cout << camera->GetDeviceInfo().GetSerialNumber() << std::endl;
+        String_t serialString = camera->GetDeviceInfo().GetSerialNumber();
+        std::stringstream ss;
+        ss << serialString;
+        std::string str = ss.str();
+        serial = std::stoull(str);
       camera->Open();
       camera->MaxNumBuffer = maxNumBuffer;
       lastNumQueuedBuffers = 0;
@@ -71,8 +77,8 @@ public :
         return camera->Width.GetValue();
     }
 
-    String_t getSerial() {
-        camera->GetDeviceInfo().GetSerialNumber();
+    unsigned long long getSerial() {
+        return serial;
     }
 
     uint8_t* grab() {
@@ -118,7 +124,7 @@ extern "C" uint32_t Camera_width(Camera* camera) {
     return camera->getWidth();
 }
 
-extern "C" String_t Camera_serial(Camera* camera) {
+extern "C" uint64_t Camera_serial(Camera* camera) {
     return camera->getSerial();
 }
 

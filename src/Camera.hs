@@ -1,4 +1,4 @@
-module Camera (cameraProducer, cameraSerial) where
+module Camera (cameraProducer) where
 
 import Control.Applicative
 
@@ -20,7 +20,7 @@ import Camera.FFI
 
 type DIM2 = (Int,Int)
 
-cameraProducer :: IO (Maybe (String, DIM2, Producer (S.Vector Word8) IO ()))
+cameraProducer :: IO (Maybe (Word64, DIM2, Producer (S.Vector Word8) IO ()))
 cameraProducer =
   do
     mcfptr <- camera
@@ -57,15 +57,6 @@ cameraDim cfptr =
     h <- P.fromIntegral <$> withForeignPtr cfptr height
     w <- P.fromIntegral <$> withForeignPtr cfptr width
     return (h,w)
-
-cameraSerial :: IO (Maybe String)
-cameraSerial =
-  do
-    mcfptr <- camera
-    case mcfptr of
-      Nothing -> return Nothing
-      Just cfptr -> fmap Just $ withForeignPtr cfptr serial
-
 
 arraySize :: DIM2 -> Int
 arraySize (h,w) = h*w
