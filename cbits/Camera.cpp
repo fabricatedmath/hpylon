@@ -38,17 +38,20 @@ public :
         }
         Pylon::IPylonDevice* x = CTlFactory::GetInstance().CreateFirstDevice(info);
         camera = new Camera_t(x);
+
+        //serial number
         String_t serialString = camera->GetDeviceInfo().GetSerialNumber();
         std::stringstream ss;
         ss << serialString;
         std::string str = ss.str();
         serial = std::stoull(str);
-      camera->Open();
-      camera->MaxNumBuffer = maxNumBuffer;
-      lastNumQueuedBuffers = 0;
-      strategy = GrabStrategy_OneByOne;
-      ptrGrabResult = new CGrabResultPtr();
-      notStarted = true;
+
+        camera->Open();
+        camera->MaxNumBuffer = maxNumBuffer;
+        lastNumQueuedBuffers = 0;
+        strategy = GrabStrategy_OneByOne;
+        ptrGrabResult = new CGrabResultPtr();
+        notStarted = true;
     }
 
     ~Camera() {
