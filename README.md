@@ -24,3 +24,5 @@ This provides a [pipe](https://hackage.haskell.org/package/pipes), producing Sto
 ```haskell 
 await
 ```
+
+see ```app/Main.hs``` for an example
