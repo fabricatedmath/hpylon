@@ -21,7 +21,9 @@ import Camera.FFI
 
 type DIM2 = (Int,Int)
 
-cameraProducer :: IO (Maybe (Word64, DIM2, Producer (S.Vector Word8) IO ()))
+type SerialNumber = Word64
+
+cameraProducer :: IO (Maybe (SerialNumber, DIM2, Producer (S.Vector Word8) IO ()))
 cameraProducer =
   do
     mcfptr <- camera
