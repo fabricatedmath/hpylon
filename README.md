@@ -25,4 +25,4 @@ This provides a [pipe](https://hackage.haskell.org/package/pipes), producing Sto
 await
 ```
 
-see ```app/Main.hs``` for an example
+see [app/Main.hs](https://github.com/fabricatedmath/hpylon/blob/master/app/Main.hs) for an example
