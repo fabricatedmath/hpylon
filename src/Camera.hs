@@ -1,6 +1,7 @@
 module Camera (cameraProducer) where
 
 import Control.Applicative
+import Control.DeepSeq (deepseq)
 
 import Control.Monad
 import Data.Maybe
@@ -46,8 +47,7 @@ cameraProducer =
                               fptr <- newForeignPtr_ ptr
                               return $ S.unsafeFromForeignPtr0 fptr s
                          ) mptr)
-
-                maybe (return ()) yield marr
+                maybe (return ()) (\x -> x `deepseq` yield x) marr
                 produce
           return $ Just (ser,dim,produce)
 

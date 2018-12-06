@@ -16,7 +16,7 @@ static int initialize() {
     return 0;
 }
 
-static int dog = initialize();
+static int dummy = initialize();
 
 class Camera {
 public :
