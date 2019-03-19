@@ -35,8 +35,9 @@ library:
   extra-libraries:
     stdc++,
     pylonbase,
-    GenApi_gcc_v3_1_Basler_pylon_v5_1,
-    GCBase_gcc_v3_1_Basler_pylon_v5_1
+    pylonutility,
+    GenApi_gcc_v3_1_Basler_pylon,
+    GCBase_gcc_v3_1_Basler_pylon
 
 executables:
   hpylon-exe:
